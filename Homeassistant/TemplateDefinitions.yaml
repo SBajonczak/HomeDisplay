@@ -1,0 +1,184 @@
+sensor:
+
+  - platform: template
+    sensors:
+      current_to_school:
+       friendly_name: Current Bus to schoool
+       unique_id: current_to_school
+       value_template: >-
+        {{((as_timestamp(strptime(((now().date()| string) +" " + state_attr('sensor.bochum_birkenfeldstr_to_bochum_freiheitsstr', 'departure')  + ":00.000000+01:00"), '%Y-%m-%d %H:%M:%S.%f%z')) -as_timestamp(now()) )/ 60)| round  }}
+      next_to_school:
+       friendly_name: Next Bus to schoool
+       unique_id: next_to_school
+       value_template: >-
+        {{((as_timestamp(strptime(((now().date()| string) +" " + state_attr('sensor.bochum_birkenfeldstr_to_bochum_freiheitsstr', 'next')  + ":00.000000+01:00"), '%Y-%m-%d %H:%M:%S.%f%z')) -as_timestamp(now()) )/ 60)| round  }}
+      current_from_school:
+       friendly_name: Current Bus from schoool
+       unique_id: current_from_school
+       value_template: >-
+        {{((as_timestamp(strptime(((now().date()| string) +" " + state_attr('sensor.freiheitsstr_bochum_to_birkenfelstr_bochum', 'departure')  + ":00.000000+01:00"), '%Y-%m-%d %H:%M:%S.%f%z')) -as_timestamp(now()) )/ 60)| round  }}
+      next_from_school:
+       friendly_name: Next Bus from schoool
+       unique_id: next_from_school
+       value_template: >-
+        {{((as_timestamp(strptime(((now().date()| string) +" " + state_attr('sensor.freiheitsstr_bochum_to_birkenfelstr_bochum', 'next')  + ":00.000000+01:00"), '%Y-%m-%d %H:%M:%S.%f%z')) -as_timestamp(now()) )/ 60)| round  }}
+
+      forecast_day_0:
+        friendly_name: Today's Forecast
+        unique_id: forecast_day_0
+        value_template: >-
+          {% set forecast = state_attr('weather.home','forecast') %}
+          {% if forecast in (none, 'unavailable','unknown') %}
+            0
+          {% else %}
+            {{ forecast[0].get('temperature',0) }}
+          {% endif %}
+        attribute_templates:
+          condition: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[0].get('condition',0) }}
+            {% endif %}
+          low: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[0].get('templow',0) }}
+            {% endif %}
+          day: >
+            Today
+
+      forecast_day_1:
+        friendly_name: Tomorrow's Forecast
+        unique_id: forecast_day_1
+        value_template: >-
+          {% set forecast = state_attr('weather.home','forecast') %}
+          {% if forecast in (none, 'unavailable','unknown') %}
+            0
+          {% else %}
+            {{ forecast[1].get('temperature',0) }}
+          {% endif %}
+        attribute_templates:
+          condition: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[1].get('condition',0) }}
+            {% endif %}
+          low: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[1].get('templow',0) }}
+            {% endif %}
+          day: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              
+            {% else %}
+              {{ as_timestamp(forecast[1].datetime) | timestamp_custom('%a') | default('')}}
+            {% endif %}
+
+      forecast_day_2:
+        friendly_name: Forecast Today Plus Two
+        unique_id: forecast_day_2
+        value_template: >-
+          {% set forecast = state_attr('weather.home','forecast') %}
+          {% if forecast in (none, 'unavailable','unknown') %}
+            0
+          {% else %}
+            {{ forecast[2].get('temperature',0) }}
+          {% endif %}
+        attribute_templates:
+          condition: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[2].get('condition',0) }}
+            {% endif %}
+          low: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[2].get('templow',0) }}
+            {% endif %}
+          day: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              
+            {% else %}
+              {{ as_timestamp(forecast[2].datetime) | timestamp_custom('%a') | default('')}}
+            {% endif %}
+
+      forecast_day_3:
+        friendly_name: Forecast Today Plus Three
+        unique_id: forecast_day_3
+        value_template: >-
+          {% set forecast = state_attr('weather.home','forecast') %}
+          {% if forecast in (none, 'unavailable','unknown') %}
+            0
+          {% else %}
+            {{ forecast[3].get('temperature',0) }}
+          {% endif %}
+        attribute_templates:
+          condition: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[3].get('condition',0) }}
+            {% endif %}
+          low: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[3].get('templow',0) }}
+            {% endif %}
+          day: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              
+            {% else %}
+              {{ as_timestamp(forecast[3].datetime) | timestamp_custom('%a') | default('')}}
+            {% endif %}
+
+      forecast_day_4:
+        friendly_name: Forecast Today Plus Four
+        unique_id: forecast_day_4
+        value_template: >-
+          {% set forecast = state_attr('weather.home','forecast') %}
+          {% if forecast in (none, 'unavailable','unknown') %}
+            0
+          {% else %}
+            {{ forecast[4].get('temperature',0) }}
+          {% endif %}
+        attribute_templates:
+          condition: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[4].get('condition',0) }}
+            {% endif %}
+          low: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              0
+            {% else %}
+              {{ forecast[4].get('templow',0) }}
+            {% endif %}
+          day: >
+            {% set forecast = state_attr('weather.home','forecast') %}
+            {% if forecast in (none, 'unavailable','unknown') %}
+              
+            {% else %}
+              {{ as_timestamp(forecast[4].datetime) | timestamp_custom('%a') | default('')}}
+            {% endif %}
